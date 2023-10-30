@@ -1,7 +1,12 @@
 from flask import Flask, jsonify, request  # Añadir 'request' para obtener los datos de la pregunta
 from flask_cors import CORS
+from dotenv import load_dotenv
+
 
 from answer_helper import answer_question
+
+load_dotenv()
+
 
 app = Flask(__name__)
 

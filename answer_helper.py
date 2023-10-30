@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 import pickle
 from PyPDF2 import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -9,8 +8,6 @@ from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 import os
 
-load_dotenv()
-
 def answer_question(question):
 
     pdf_reader = PdfReader("PL.pdf")
@@ -20,7 +17,7 @@ def answer_question(question):
         text += page.extract_text()
         
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=2000,
+        chunk_size=3000,
         chunk_overlap=500,
         length_function=len
         )
@@ -38,10 +35,10 @@ def answer_question(question):
             pickle.dump(VectorStore, f)
             
     docs = VectorStore.similarity_search(question, k=2)
+    
     docs_page_content = " ".join([d.page_content for d in docs])
 
-
-    llm = OpenAI(model_name="text-davinci-003")
+    llm = OpenAI(model_name="text-davinci-003", temperature=0)
 
     prompt = PromptTemplate(
         input_variables=["question", "docs"],
