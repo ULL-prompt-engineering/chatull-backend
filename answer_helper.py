@@ -16,8 +16,9 @@ def answer_question(question):
     for page in pdf_reader.pages:
         text += page.extract_text()
         
+    print(len(text))
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=3000,
+        chunk_size=8000,
         chunk_overlap=500,
         length_function=len
         )
@@ -25,7 +26,7 @@ def answer_question(question):
     chunks = text_splitter.split_text(text=text)
     # # embeddings
     store_name = "PL"
-    if os.path.exists(f"{store_name}.pkl"):
+    if os.path.exists(f"{store_name}.pkl") and False:
         with open(f"{store_name}.pkl", "rb") as f:
             VectorStore = pickle.load(f)
     else:
@@ -34,10 +35,10 @@ def answer_question(question):
         with open(f"{store_name}.pkl", "wb") as f:
             pickle.dump(VectorStore, f)
             
-    docs = VectorStore.similarity_search(question, k=2)
+    docs = VectorStore.similarity_search(question, k=1)
     
     docs_page_content = " ".join([d.page_content for d in docs])
-
+    print(len(docs_page_content))
     llm = OpenAI(model_name="text-davinci-003", temperature=0)
 
     prompt = PromptTemplate(
