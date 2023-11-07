@@ -9,8 +9,8 @@ from langchain.prompts import PromptTemplate
 import os
 
 def answer_question(question):
-
-    pdf_reader = PdfReader("PL.pdf")
+    store_name = "PL"
+    pdf_reader = PdfReader(f"{store_name}.pdf")
     
     text = ""
     for page in pdf_reader.pages:
@@ -25,8 +25,7 @@ def answer_question(question):
     
     chunks = text_splitter.split_text(text=text)
     # # embeddings
-    store_name = "PL"
-    if os.path.exists(f"{store_name}.pkl") and False:
+    if os.path.exists(f"{store_name}.pkl"):
         with open(f"{store_name}.pkl", "rb") as f:
             VectorStore = pickle.load(f)
     else:
