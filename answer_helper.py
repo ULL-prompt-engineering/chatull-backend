@@ -1,18 +1,10 @@
-import pickle
-from PyPDF2 import PdfReader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.vectorstores import FAISS
 from langchain.llms import OpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 import os
+from subjects_helper import subjects
 
-subjects = {
-    "Procesadores del Lenguaje": "PL",
-    "Interfaces Inteligentes": "II",
-    "Robótica Computacional": "RC",
-}
 
 def answer_question(question, subject):
     print(subject)
