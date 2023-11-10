@@ -15,8 +15,9 @@ CORS(app)
 @app.route('/get_answer', methods=['GET'])
 def get_answer():
     question = request.args.get('question')  # Obtener la pregunta de los parámetros de la URL
-    answer = answer_question(question)
-
+    subject = request.args.get('subject')  # Obtener la pregunta de los parámetros de la URL
+    answer = answer_question(question, subject)
+    print(answer)
     return jsonify({"answer": answer})
 
 if __name__ == '__main__':

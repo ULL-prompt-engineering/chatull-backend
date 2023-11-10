@@ -8,9 +8,17 @@ from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 import os
 
-def answer_question(question):
-    store_name = "PL"
+subjects = {
+    "Procesadores del Lenguaje": "PL",
+    "Interfaces Inteligentes": "II",
+    "Robótica Computacional": "RC",
+}
+
+def answer_question(question, subject):
+    print(subject)
+    store_name = subjects[subject]
     pdf_reader = PdfReader(f"{store_name}.pdf")
+    print(f"{store_name}.pdf")
     
     text = ""
     for page in pdf_reader.pages:
@@ -18,14 +26,14 @@ def answer_question(question):
         
     print(len(text))
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=8000,
-        chunk_overlap=500,
+        chunk_size=3500,
+        chunk_overlap=750,
         length_function=len
         )
     
     chunks = text_splitter.split_text(text=text)
     # # embeddings
-    if os.path.exists(f"{store_name}.pkl"):
+    if os.path.exists(f"{store_name}.pkl") and False:
         with open(f"{store_name}.pkl", "rb") as f:
             VectorStore = pickle.load(f)
     else:
@@ -34,9 +42,10 @@ def answer_question(question):
         with open(f"{store_name}.pkl", "wb") as f:
             pickle.dump(VectorStore, f)
             
-    docs = VectorStore.similarity_search(question, k=1)
+    docs = VectorStore.similarity_search(question, k=2)
     
     docs_page_content = " ".join([d.page_content for d in docs])
+    print(docs_page_content)
     print(len(docs_page_content))
     llm = OpenAI(model_name="text-davinci-003", temperature=0)
 
@@ -48,11 +57,11 @@ def answer_question(question):
         Answer the following question: {question}
         By searching the following information of the guide: {docs}
         
-        Only use the factual information from the guide to answer the question.
+        Only use the factual information from the guide to answer the question and not invent anything.
         
-        If you feel like you don't have enough information to answer the question, say "I don't know".
-        
-        Your answers should be short, and precise.
+        If you  don't have enough information to answer the question, say "No lo se" or "No tengo suficiente información".
+
+        Your answers should be precise and extremely not too long and transcribed in Spanish.
         """,
     )
     
