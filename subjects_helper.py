@@ -5,57 +5,31 @@ def GetSectionsFromPDF(pdf_name, sections):
     text = ""
     sectionsExtracted = 1
     sections_with_text = {}
+    lastSection = False
     section_delimiter = sections[sectionsExtracted]
     for page in pdf_reader.pages:
         for line in page.extract_text().split("\n"):
+            if lastSection:
+                text += line + "\n"
+                continue
             if section_delimiter in line:
                 currentSection = sections[sectionsExtracted - 1]
                 sections_with_text[currentSection] = text
                 text = ""
                 sectionsExtracted += 1
                 if sectionsExtracted == len(sections):
-                    break
+                    lastSection = True
                 else:
                     section_delimiter = sections[sectionsExtracted]
             else:
                 text += line + "\n"
+    
+    sections_with_text[sections[sectionsExtracted - 1]] = text
     return sections_with_text
 
 def buildSubjectsSections(subjects, sections):
     subjects_with_sections = {}
     for subject in subjects.values():
-        sections = GetSectionsFromPDF(subject, sections)
-        subjects_with_sections[subject] = sections
+        section_text = GetSectionsFromPDF(subject, sections)
+        subjects_with_sections[subject] = section_text
     return subjects_with_sections
-
-
-
-def main():
-    #subjects = {
-    #    "Procesadores del Lenguaje": "PL",
-    #    "Interfaces Inteligentes": "II",
-    #    "Robótica Computacional": "RC",
-    #}
-    subjects = {
-        "Procesadores del Lenguaje": "PL",
-    }
-
-    sections = [
-        "Datos descriptivos de la asignatura",
-        "Requisitos de matrícula y calificación",
-        "Profesorado que imparte la asignatura",
-        "Contextualización de la asignatura en el plan de estudio",
-        "Competencias",
-        "Contenidos de la asignatura",
-        "Metodología y volumen de trabajo del estudiante",
-        "Bibliografía / Recursos",
-        "Sistema de evaluación y calificación",
-        "Resultados de Aprendizaje",
-        "Cronograma / calendario de la asignatura"
-    ]
-
-    all_information = buildSubjectsSections(subjects, sections)
-    print(all_information["PL"]["Datos descriptivos de la asignatura"])
-
-if __name__ == "__main__":
-    main()
