@@ -1,5 +1,11 @@
 from PyPDF2 import PdfReader
 
+filters = [
+    "Última modificación",
+    "Aprobación",
+    "Página"
+]
+
 def GetSectionsFromPDF(pdf_name, sections):
     pdf_reader = PdfReader(f"{pdf_name}.pdf")
     text = ""
@@ -22,7 +28,9 @@ def GetSectionsFromPDF(pdf_name, sections):
                 else:
                     section_delimiter = sections[sectionsExtracted]
             else:
-                text += line + "\n"
+                # si la linea no contiene ninguno de los filtros, añadirla al texto
+                if not any(filter in line for filter in filters):   
+                    text += line + "\n"
     
     sections_with_text[sections[sectionsExtracted - 1]] = text
     return sections_with_text

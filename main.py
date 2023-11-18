@@ -19,6 +19,7 @@ def get_answer():
     docs_page_content = documents[subjects[subject]]
     answer = answer_question(question, docs_page_content)
     print(answer)
+    answer = answer.replace("\n", "<br>")
     return jsonify({"answer": answer})
 
 if __name__ == '__main__':

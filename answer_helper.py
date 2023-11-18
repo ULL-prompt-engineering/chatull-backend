@@ -2,12 +2,18 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.llms import OpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
+from langchain.chat_models import ChatOpenAI
 import os
 import re
 
 def answer_question(question, docs_page_content):
-    llm = OpenAI(model_name="text-davinci-003", temperature=0)
+    ##llm = OpenAI(model_name="text-davinci-003", temperature=0)
+    llm = ChatOpenAI(
+    model_name='gpt-3.5-turbo-16k',
+    temperature = 0
+    )
 
+    print("Modelo cargado")
     promt_classification = PromptTemplate(
         input_variables=["question", "sections"],
         template="""
@@ -28,23 +34,15 @@ def answer_question(question, docs_page_content):
     promt_question = PromptTemplate(
         input_variables=["question", "section_content"],
         template="""
-            Eres un modelo de lenguaje experto en responder preguntas sobre una sección de una guía académica de una asignatura de la ULL.
-            Solo debes buscar información en la información que se te proporciona y responder a la pregunta.
+            Eres un modelo de lenguaje especializado en proporcionar respuestas precisas sobre información académica. La información actual es la siguiente:
 
-            Si en algún momento consideras que no puedes responder a la pregunta, debes responder "No se la respuesta".
-
-            La información del tipo (ejemplo): 
-                Última modificación: 26-06-2023
-                Aprobación: 10-07-2023
-                Página 4 de 13
-            
-            puedes ignorla a la hora de buscar información, ya que la información proporcionada es continua y no se encuentra en una sola página.
-
-            Información: {section_content}
+            {section_content}
 
             Pregunta: {question}
 
-            Da respuesta a la pregunta de la mejor forma posible, es decir siendo lo más preciso y conciso posible.
+           
+            Utiliza tu capacidad para buscar información de manera inteligente y proporciona respuestas concisas basadas en el contenido suministrado. Evita respuestas extensas y la invención de datos.
+
             """
     )
     
@@ -54,11 +52,18 @@ def answer_question(question, docs_page_content):
 
     correct_section = re.sub(r"\d+\.", "", correct_section)
     correct_section = re.sub(r"\n", "", correct_section)
+    correct_section = re.sub(r"Respuesta:", "", correct_section)
+    correct_section = re.sub(r"respuesta:", "", correct_section)
     correct_section = correct_section.strip()
     
 
     section_content = docs_page_content[correct_section]
 
+    with open("section_content.txt", "a") as f:
+        f.write(section_content)
+
     response = question_model.run(question=question, section_content=section_content)
+
+    response = re.sub(r"\;", "\n", response)
 
     return response
