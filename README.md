@@ -6,6 +6,8 @@ Add a `.env` file with the following content:
 OPENAI_API_KEY=<your key>
 ```
 
+You can use the `.env.example` file as a template, remember to change the name to `.env`.
+
 Install dependencies:
 
 ``` bash
