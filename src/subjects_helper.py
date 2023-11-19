@@ -7,7 +7,8 @@ filters = [
 ]
 
 def GetSectionsFromPDF(pdf_name, sections):
-    pdf_reader = PdfReader(f"{pdf_name}.pdf")
+    # the pdf is in a folder called "pdf" in the root ../pdf
+    pdf_reader = PdfReader(f"pdf/{pdf_name}.pdf")
     text = ""
     sectionsExtracted = 1
     sections_with_text = {}

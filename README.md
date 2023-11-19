@@ -21,7 +21,7 @@ pip install langchain openai==0.28.1 python-dotenv flask flask-cors  PyPDF2 tikt
 Started the server:
 
 ```
-(.venv) ➜  chatull-backend git:(master) ✗ python main.py 
+(.venv) ➜  chatull-backend git:(master) ✗ python src/main.py 
  * Serving Flask app 'main'
  * Debug mode: on
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.

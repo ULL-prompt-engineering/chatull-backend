@@ -7622,3 +7622,195 @@ P2.106
 Observaciones:
  
  
+Profesor/a Coordinador/a: CASIANO RODRIGUEZ LEON
+- Grupo: 1, PA101, PE102,PE103
+General
+- Nombre: CASIANO
+- Apellido: RODRIGUEZ LEON
+- Departamento: Ingeniería Informática y de Sistemas
+- Área de conocimiento: Lenguajes y Sistemas Informáticos
+
+ 
+Contacto
+- Teléfono 1: 992318187
+- Teléfono 2:
+- Correo electrónico: crguezl@ull.es
+- Correo alternativo: crguezl@ull.edu.es
+- Web: https://crguezl.github.io/
+Tutorías primer cuatrimestre:
+Desde
+Hasta
+Día
+Hora inicial
+Hora final
+Localización
+Despacho
+Todo el
+cuatrimestre
+Lunes
+08:30
+10:30
+Escuela
+Superior de
+Ingeniería y
+Tecnología -
+Módulo A -
+AN.4A ESIT
+P2.037
+Todo el
+cuatrimestre
+Martes
+08:30
+10:30
+Escuela
+Superior de
+Ingeniería y
+Tecnología -
+Módulo A -
+AN.4A ESIT
+P2.037
+Todo el
+cuatrimestre
+Miércoles
+10:30
+12:30
+Escuela
+Superior de
+Ingeniería y
+Tecnología -
+Módulo A -
+AN.4A ESIT
+P2.037
+Observaciones: Las tutorías serán preferentemente telemáticas a través de Google Meet y pueden ser solicitadas mediante
+email o usando Google Chat. En caso de necesidad de presencialidad se indicará en el mensaje. Por parte del alumnado se
+necesitará un PC, Portátil, tablet, o teléfono móvil con cámara, micrófono y conexión de internet
+Tutorías segundo cuatrimestre:
+Desde
+Hasta
+Día
+Hora inicial
+Hora final
+Localización
+Despacho
+Todo el
+cuatrimestre
+Lunes
+11:30
+14:00
+Escuela
+Superior de
+Ingeniería y
+Tecnología -
+Módulo A -
+AN.4A ESIT
+P2.037
+
+ Todo el
+cuatrimestre
+Martes
+10:30
+11:30
+Escuela
+Superior de
+Ingeniería y
+Tecnología -
+Módulo A -
+AN.4A ESIT
+P2.037
+Todo el
+cuatrimestre
+Miércoles
+11:30
+14:00
+Escuela
+Superior de
+Ingeniería y
+Tecnología -
+Módulo A -
+AN.4A ESIT
+P2.037
+Observaciones: Las tutorías serán preferentemente telemáticas a través de Google Meet y pueden ser solicitadas mediante
+email o usando Google Chat. En caso de necesidad de presencialidad se indicará en el mensaje. Por parte del alumnado se
+necesitará un PC, Portátil, tablet, o teléfono móvil con cámara, micrófono y conexión de internet
+Profesor/a: ISRAEL LÓPEZ PLATA
+- Grupo: PE101
+General
+- Nombre: ISRAEL
+- Apellido: LÓPEZ PLATA
+- Departamento: Ingeniería Informática y de Sistemas
+- Área de conocimiento: Lenguajes y Sistemas Informáticos
+Contacto
+- Teléfono 1:
+- Teléfono 2:
+- Correo electrónico: ilopezpl@ull.es
+- Correo alternativo:
+- Web: https://portalciencia.ull.es/investigadores/158124/detalle
+Tutorías primer cuatrimestre:
+Desde
+Hasta
+Día
+Hora inicial
+Hora final
+Localización
+Despacho
+Todo el
+cuatrimestre
+Lunes
+09:30
+12:30
+Escuela
+Superior de
+Ingeniería y
+Tecnología -
+Módulo C -
+AN.4A ESIT
+P2.106
+
+ Todo el
+cuatrimestre
+Martes
+09:30
+12:30
+Escuela
+Superior de
+Ingeniería y
+Tecnología -
+Módulo C -
+AN.4A ESIT
+P2.106
+Observaciones:
+Tutorías segundo cuatrimestre:
+Desde
+Hasta
+Día
+Hora inicial
+Hora final
+Localización
+Despacho
+Todo el
+cuatrimestre
+Lunes
+09:30
+12:30
+Escuela
+Superior de
+Ingeniería y
+Tecnología -
+Módulo C -
+AN.4A ESIT
+P2.106
+Todo el
+cuatrimestre
+Jueves
+09:30
+12:30
+Escuela
+Superior de
+Ingeniería y
+Tecnología -
+Módulo C -
+AN.4A ESIT
+P2.106
+Observaciones:
+ 
+ 
