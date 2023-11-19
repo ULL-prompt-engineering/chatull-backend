@@ -1,3 +1,5 @@
+## Setup and execution
+
 Add a `.env` file with the following content:
 
 ``` bash
@@ -17,9 +19,18 @@ source .venv/bin/activate
 pip install langchain openai==0.28.1 python-dotenv flask flask-cors  PyPDF2 tiktoken 
 ```
 
-Warning: There were problems with `faiss-gpu`. Dependence retired for now. 
+Warning: Initially there were problems with dependency `faiss-gpu`. @crguezl retired dependence  for now and installed instead [faiss-cpu](https://pypi.org/project/faiss-cpu/):
 
-Start the server:
+```
+(.venv) ➜  chatull-backend git:(casiano) pip install faiss-cpu
+Collecting faiss-cpu
+  Downloading faiss_cpu-1.7.4-cp311-cp311-macosx_10_9_x86_64.whl (6.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.5/6.5 MB 17.3 MB/s eta 0:00:00
+Installing collected packages: faiss-cpu
+Successfully installed faiss-cpu-1.7.4
+```
+
+Started the server:
 
 ```
 (.venv) ➜  chatull-backend git:(master) ✗ python main.py 
@@ -35,12 +46,17 @@ Press CTRL+C to quit
 
 Now go to <https://chatull.pages.dev/> and fill a question.
 
-It gives an error:
+```
+¿Cuales son los horarios de tutoría del profesor Casiano?
+```
+
+It works fine:
 
 ```
-27.0.0.1 - - [19/Nov/2023 10:25:10] "GET /get_answer?question=¿cuales%20son%20los%20horarios%20de%20tutoría?&subject=Procesadores%20del%20Lenguaje HTTP/1.1" 500 -
-Traceback (most recent call last):
-  File "/Users/casianorodriguezleon/campus-virtual/2324/tfg2324/gabriel-jonay-vera-estevez/chatull-backend/.venv/lib/python3.11/site-packages/langchain/vectorstores/faiss.py", line 53, in dependable_faiss_import
-    import faiss
-ModuleNotFoundError: No module named 'faiss'
+El profesor Casiano ofrece tutorías los lunes de 9:30 a 12:30 en el Módulo C de la Escuela Superior de Ingeniería y Tecnología (AN.4A ESIT) en el despacho P2.106, los martes de 10:30 a 11:30 en el Módulo A de la Escuela Superior de Ingeniería y Tecnología (AN.4A ESIT) en el despacho P2.037, y los jueves de 9:30 a 12:30 en el Módulo C de la Escuela Superior de Ingeniería y Tecnología (AN.4A ESIT) en el despacho P2.106.
 ```
+
+## References
+
+* About .pkl files: <https://docs.python.org/3/library/pickle.html>
+* How to Create Requirements.txt Python?: <https://www.scaler.com/topics/how-to-create-requirements-txt-python/>
