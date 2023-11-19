@@ -1,72 +1,69 @@
-import pickle
-from PyPDF2 import PdfReader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.vectorstores import FAISS
 from langchain.llms import OpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
+from langchain.chat_models import ChatOpenAI
 import os
+import re
 
-subjects = {
-    "Procesadores del Lenguaje": "PL",
-    "Interfaces Inteligentes": "II",
-    "Robótica Computacional": "RC",
-}
+def answer_question(question, docs_page_content):
+    ##llm = OpenAI(model_name="text-davinci-003", temperature=0)
+    llm = ChatOpenAI(
+    model_name='gpt-3.5-turbo-16k',
+    temperature = 0
+    )
 
-def answer_question(question, subject):
-    print(subject)
-    store_name = subjects[subject]
-    pdf_reader = PdfReader(f"{store_name}.pdf")
-    print(f"{store_name}.pdf")
-    
-    text = ""
-    for page in pdf_reader.pages:
-        text += page.extract_text()
-        
-    print(len(text))
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=3500,
-        chunk_overlap=750,
-        length_function=len
-        )
-    
-    chunks = text_splitter.split_text(text=text)
-    # # embeddings
-    if os.path.exists(f"{store_name}.pkl") and False:
-        with open(f"{store_name}.pkl", "rb") as f:
-            VectorStore = pickle.load(f)
-    else:
-        embeddings = OpenAIEmbeddings()
-        VectorStore = FAISS.from_texts(chunks, embedding=embeddings)
-        with open(f"{store_name}.pkl", "wb") as f:
-            pickle.dump(VectorStore, f)
-            
-    docs = VectorStore.similarity_search(question, k=2)
-    
-    docs_page_content = " ".join([d.page_content for d in docs])
-    print(docs_page_content)
-    print(len(docs_page_content))
-    llm = OpenAI(model_name="text-davinci-003", temperature=0)
-
-    prompt = PromptTemplate(
-        input_variables=["question", "docs"],
+    print("Modelo cargado")
+    promt_classification = PromptTemplate(
+        input_variables=["question", "sections"],
         template="""
-        You are a helpful assistant that that can answer questions about subjects guides. 
-        
-        Answer the following question: {question}
-        By searching the following information of the guide: {docs}
-        
-        Only use the factual information from the guide to answer the question and not invent anything.
-        
-        If you  don't have enough information to answer the question, say "No lo se" or "No tengo suficiente información".
+           Eres un modelo de lenguaje experto en clasificar preguntas en función de la sección a la que pertenecen.
+           Solo te limitaras a dar el nombre de la sección a la que pertenece la pregunt, sin más.
+    
+            Ejemplo: Yo: Que cosas tengo que aprobar con un 5
+            Tu: 9. Sistema de evaluación y calificación
+    
+            Secciones: {sections}
 
-        Your answers should be precise and extremely not too long and transcribed in Spanish.
-        """,
+            Pregunta: {question}
+
+            Clasifica la pregunta en una de las secciones anteriores.
+        """
+    )
+
+    promt_question = PromptTemplate(
+        input_variables=["question", "section_content"],
+        template="""
+            Eres un modelo de lenguaje especializado en proporcionar respuestas precisas sobre información académica. La información actual es la siguiente:
+
+            {section_content}
+
+            Pregunta: {question}
+
+           
+            Utiliza tu capacidad para buscar información de manera inteligente y proporciona respuestas concisas basadas en el contenido suministrado. Evita respuestas extensas y la invención de datos.
+
+            """
     )
     
-    chain = LLMChain(llm=llm, prompt=prompt)
+    classification_model = LLMChain(llm=llm, prompt=promt_classification)
+    question_model = LLMChain(llm=llm, prompt=promt_question)
+    correct_section = classification_model.run(question=question, sections=docs_page_content.keys())
 
-    response = chain.run(question=question, docs=docs_page_content)
-    response = response.replace("\n", "")
+    correct_section = re.sub(r"\d+\.", "", correct_section)
+    correct_section = re.sub(r"\n", "", correct_section)
+    correct_section = re.sub(r"Respuesta:", "", correct_section)
+    correct_section = re.sub(r"respuesta:", "", correct_section)
+    correct_section = correct_section.strip()
+    
+
+    section_content = docs_page_content[correct_section]
+
+    with open("section_content.txt", "a") as f:
+        f.write(section_content)
+
+    response = question_model.run(question=question, section_content=section_content)
+
+    response = re.sub(r"\;", "\n", response)
+
     return response

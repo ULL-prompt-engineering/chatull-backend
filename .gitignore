@@ -1,3 +1,5 @@
 .venv
 .env
 __pycache__/
+section_content.txt
+*.pdf

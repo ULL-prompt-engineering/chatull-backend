@@ -17,18 +17,6 @@ source .venv/bin/activate
 
 # Install dependencies
 pip install langchain openai==0.28.1 python-dotenv flask flask-cors  PyPDF2 tiktoken 
-```
-
-Warning: Initially there were problems with dependency `faiss-gpu`. @crguezl retired dependence  for now and installed instead [faiss-cpu](https://pypi.org/project/faiss-cpu/):
-
-```
-(.venv) ➜  chatull-backend git:(casiano) pip install faiss-cpu
-Collecting faiss-cpu
-  Downloading faiss_cpu-1.7.4-cp311-cp311-macosx_10_9_x86_64.whl (6.5 MB)
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.5/6.5 MB 17.3 MB/s eta 0:00:00
-Installing collected packages: faiss-cpu
-Successfully installed faiss-cpu-1.7.4
-```
 
 Started the server:
 
