@@ -16,11 +16,15 @@ python3 -m venv ./.venv
 
 # Activate virtual environment
 source .venv/bin/activate
+```
 
 # Install dependencies
-pip install langchain openai==0.28.1 python-dotenv flask flask-cors PyPDF2 
 
-Started the server:
+```
+pip install langchain openai==0.28.1 python-dotenv flask flask-cors PyPDF2 
+```
+
+Start the server:
 
 ```
 (.venv) ➜  chatull-backend git:(master) ✗ python src/main.py 
