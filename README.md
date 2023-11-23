@@ -18,7 +18,7 @@ python3 -m venv ./.venv
 source .venv/bin/activate
 ```
 
-# Install dependencies
+Install dependencies
 
 ```
 pip install langchain openai==0.28.1 python-dotenv flask flask-cors PyPDF2 
