@@ -1,10 +1,19 @@
 ## Setup and execution
 
+If you don't already have an OpenAI account, navigate to the [OpenAI website](https://www.openai.com/).
+
+Here, you will see a "Sign Up" button at the top right corner of the website. Click on it and fill in your details to create an account. You can sign up with your GitHub or Google accounts. After signing up, you'll receive an email from OpenAI to confirm your account. Open this email and click on the verification link. This step helps to ensure the security of your account.
+
+After logging in, in the top right corner of your screen you'll see an icon with your account name. Click it to open the dropdown menu then click "View API keys".
+
+Now you're in the API keys section, you should see a button "Create new secret key". Click on that button to generate a new API key. Name your key. You will see your secret key that has been generated. Copy your secret key.
+
 Add a `.env` file with the following content:
 
 ``` bash
 OPENAI_API_KEY=<your key>
 ```
+Paste your key there.
 
 You can use the `.env.example` file as a template, remember to change the name to `.env`.
 
