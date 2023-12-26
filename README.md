@@ -51,7 +51,6 @@ Now go to the [Frontend Repo](https://github.com/ULL-prompt-engineering/chatull-
 
 Then execute the following commands;
 ```bash
-```
 cd chatull-frontend
 npm install
 npm run dev
