@@ -36,7 +36,7 @@ def GetSectionsFromPDF(pdf_name, sections):
     sections_with_text[sections[sectionsExtracted - 1]] = text
     return sections_with_text
 
-def buildSubjectsSections(subjects, sections):
+def buildSections(subjects, sections):
     subjects_with_sections = {}
     for subject in subjects.values():
         section_text = GetSectionsFromPDF(subject, sections)
