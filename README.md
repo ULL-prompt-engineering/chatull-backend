@@ -47,9 +47,19 @@ Press CTRL+C to quit
  * Debugger PIN: 691-027-428
 ```
 
-Now go to <https://chatull.pages.dev/> and fill a question.
+Now go to the [Frontend Repo](https://github.com/ULL-prompt-engineering/chatull-frontend) and clone the repository.
 
+Then execute the following commands;
+```bash
 ```
+cd chatull-frontend
+npm install
+npm run dev
+```
+And go to http://localhost:4321/
+
+Once you get into, go to chat page and test fill a question.
+
 ¿Cuales son los horarios de tutoría del profesor Casiano?
 ```
 
