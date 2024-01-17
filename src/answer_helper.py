@@ -17,11 +17,15 @@ def answer_question(question, docs_page_content, classify_model, question_model)
     )
     
     correct_section = completion.choices[0].message.content
+    
+    print(f"Correct section: {correct_section}")
 
     correct_section = re.sub(r"\d+\.", "", correct_section)
     correct_section = re.sub(r"\n", "", correct_section)
     correct_section = re.sub(r"Respuesta:", "", correct_section)
     correct_section = re.sub(r"respuesta:", "", correct_section)
+    correct_section = re.sub(r"\.", "", correct_section)
+    correct_section = re.sub(r"\,", "", correct_section)
     correct_section = correct_section.strip()
     
 
@@ -30,6 +34,8 @@ def answer_question(question, docs_page_content, classify_model, question_model)
     except:
         section_content = "No hay información disponible sobre la sección a la que pertenece la pregunta."
 
+    print(f"Section content: {section_content}")
+    
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
