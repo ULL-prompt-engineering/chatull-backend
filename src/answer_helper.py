@@ -1,36 +1,22 @@
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.llms import OpenAI
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
-from langchain.chat_models import ChatOpenAI
+from openai import OpenAI
+
 import os
 import re
 import time
 
 def answer_question(question, docs_page_content, classify_model, question_model):
-    ##llm = OpenAI(model_name="text-davinci-003", temperature=0)
-    llm = ChatOpenAI(
-    model_name='gpt-3.5-turbo-16k',
-    temperature = 0
-    )
-
-    print("Modelo cargado")
-    promt_classification = PromptTemplate(
-        input_variables=["question", "sections"],
-        template=classify_model
-    )
-
-    promt_question = PromptTemplate(
-        input_variables=["question", "section_content"],
-        template=question_model
-    )
-    
-    classification_model = LLMChain(llm=llm, prompt=promt_classification)
-    question_model = LLMChain(llm=llm, prompt=promt_question)
+    client = OpenAI()
 
     start_time = time.time()
 
-    correct_section = classification_model.run(question=question, sections=docs_page_content.keys())
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": classify_model.format(question=question, sections="".join(docs_page_content.keys()))},
+        ]
+    )
+    
+    correct_section = completion.choices[0].message.content
 
     correct_section = re.sub(r"\d+\.", "", correct_section)
     correct_section = re.sub(r"\n", "", correct_section)
@@ -44,8 +30,13 @@ def answer_question(question, docs_page_content, classify_model, question_model)
     except:
         section_content = "No hay información disponible sobre la sección a la que pertenece la pregunta."
 
-
-    response = question_model.run(question=question, section_content=section_content)
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": question_model.format(question=question, section_content=section_content)},
+        ]
+    )
+    response = completion.choices[0].message.content
     end_time = time.time()
 
     duration = end_time - start_time
