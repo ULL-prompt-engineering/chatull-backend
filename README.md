@@ -30,7 +30,7 @@ source .venv/bin/activate
 Install dependencies
 
 ```
-pip install openai python-dotenv flask flask-cors PyPDF2 
+pip install openai python-dotenv flask flask-cors PyPDF2 cryptography
 ```
 
 Start the server:

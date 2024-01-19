@@ -1,35 +1,82 @@
-from flask import Flask, jsonify, request  # Añadir 'request' para obtener los datos de la pregunta
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
-from dotenv import load_dotenv
 from subjects import subjects, sections, subjects_promp_classify, subjects_promp_question
 from subjects_helper import buildSections
 from answer_helper import answer_question, save_time_to_csv
 from regulation import regulation, regulation_sections, regulation_promp_classify, regulation_promp_question
+import uuid
 
-load_dotenv()
 documents = buildSections(subjects, sections)
 regulation_docs = buildSections(regulation, regulation_sections)
+
+api_keys = {}
 
 app = Flask(__name__)
 
 CORS(app)
 
-@app.route('/get_answer', methods=['GET'])
-def get_answer():
+@app.route('/set_api_key', methods=['POST'])
+def set_api_key():
+    # Extraer la API key y el token de sesión desde la solicitud
+    api_key = request.json.get('api_key')
+
+    # Establecer la cookie en la respuesta
+    if api_key is None:
+        return make_response("API key no encontrada", 401)
+    
+    if api_keys.get(api_key) is not None:
+        return make_response("API key ya registrada", 401)
+    
+    session_token = str(uuid.uuid4())
+
+    request_ip = request.remote_addr
+    print("IP: " + request_ip)
+
+    api_keys[session_token] = {"api_key": api_key, "ip": request_ip}
+
+    response = make_response(jsonify({'message': 'API key guardada exitosamente', 'session_token': session_token}), 200)
+    return response
+@app.route('/get_answer/<session_token>', methods=['GET'])
+def get_answer(session_token):
     question = request.args.get('question')  # Obtener la pregunta de los parámetros de la URL
     subject = request.args.get('subject')  # Obtener la pregunta de los parámetros de la URL
+    if question is None:
+        return make_response("Pregunta no encontrada", 400)
+    if subject is None:
+        return make_response("Materia no encontrada", 400)
+
+    session = api_keys.get(session_token)
+    if session is None:
+        return make_response("Sesión no encontrada", 401)
+    
+    if session.get("ip") != request.remote_addr:
+        return make_response("Datos de sesión inválidos", 401)
+    
+    api_key = session.get("api_key")
+
     docs_page_content = documents[subjects[subject]]
-    answer, duration = answer_question(question, docs_page_content, subjects_promp_classify, subjects_promp_question)
+    answer, duration = answer_question(question, docs_page_content, subjects_promp_classify, subjects_promp_question, api_key)
     answer = answer.replace("\n", "<br>")
     save_time_to_csv(question, answer, duration)
     return jsonify({"answer": answer})
-@app.route('/get_teacher_answer', methods=['GET'])
-def get_teacher_answer():
+@app.route('/get_teacher_answer/<session_token>', methods=['GET'])
+def get_teacher_answer(session_token):
     question = request.args.get('question')  # Obtener la pregunta de los parámetros de la URL
-    print(question)
+    if question is None:
+        return make_response("Pregunta no encontrada", 400)
+    
+    session = api_keys.get(session_token)
+    if session is None:
+        return make_response("Sesión no encontrada", 401)
+    
+    if session.get("ip") != request.remote_addr:
+        return make_response("Datos de sesión inválidos", 401)
+    
+    api_key = session.get("api_key")
+    
     regulation_name = list(regulation.values())[0]
     regulation_page_content = regulation_docs[regulation_name]
-    answer, duration = answer_question(question, regulation_page_content, regulation_promp_classify, regulation_promp_question)
+    answer, duration = answer_question(question, regulation_page_content, regulation_promp_classify, regulation_promp_question, api_key)
     answer = answer.replace("\n", "<br>")
     save_time_to_csv(question, answer, duration)
     return jsonify({"answer": answer})
@@ -48,3 +95,4 @@ def get_documents():
     
 if __name__ == '__main__':
     app.run(debug=True)
+

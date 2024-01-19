@@ -4,8 +4,8 @@ import os
 import re
 import time
 
-def answer_question(question, docs_page_content, classify_model, question_model):
-    client = OpenAI()
+def answer_question(question, docs_page_content, classify_model, question_model, api_key):
+    client = OpenAI(api_key=api_key)
 
     start_time = time.time()
 
