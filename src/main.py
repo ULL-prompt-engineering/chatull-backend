@@ -13,6 +13,7 @@ documents = buildSections(subjects, sections)
 regulation_docs = buildSections(regulation, regulation_sections)
 
 api_keys = {}
+api_key_control = {}
 
 app = Flask(__name__)
 
@@ -31,35 +32,23 @@ def set_api_key():
     # Extraer la API key y el token de sesión desde la solicitud
     api_key = request.json.get('api_key')
 
-    # Establecer la cookie en la respuesta
     if api_key is None:
         return make_response("API key no encontrada", 400)
     
-    if api_keys.get(api_key) is not None:
-        return make_response("API key ya registrada", 409)
-    
-    session_token = str(uuid.uuid4())
-
-    request_ip = request.remote_addr
-    print("IP: " + request_ip)
-
-    api_keys[session_token] = {"api_key": api_key, "ip": request_ip}
+    session_token = ""
+    if api_key_control.get(api_key) is not None:
+        session_token = api_key_control.get(api_key)
+        # update ip
+        api_keys[session_token]["ip"] = request.remote_addr
+    else:
+        session_token = str(uuid.uuid4())
+        request_ip = request.remote_addr
+        api_keys[session_token] = {"api_key": api_key, "ip": request_ip}
+        api_key_control[api_key] = session_token
 
     response = make_response(jsonify({'message': 'API key guardada exitosamente', 'session_token': session_token}), 200)
     return response
 
-@app.route('/end_session/<session_token>', methods=['DELETE'])
-def end_session(session_token):
-    session = api_keys.get(session_token)
-    if session is None:
-        return make_response("Sesión no encontrada", 404)
-    
-    if session.get("ip") != request.remote_addr:
-        return make_response("Datos de sesión inválidos", 401)
-    
-    api_keys.pop(session_token)
-    response = make_response(jsonify({'message': 'Sesión finalizada exitosamente'}), 200)
-    return response
 @app.route('/get_answer/<session_token>', methods=['GET'])
 def get_answer(session_token):
     question = request.args.get('question')  # Obtener la pregunta de los parámetros de la URL
@@ -83,6 +72,7 @@ def get_answer(session_token):
     answer = answer.replace("\n", "<br>")
     save_time_to_csv(question, answer, duration)
     return jsonify({"answer": answer})
+
 @app.route('/get_teacher_answer/<session_token>', methods=['GET'])
 def get_teacher_answer(session_token):
     question = request.args.get('question')  # Obtener la pregunta de los parámetros de la URL
@@ -104,6 +94,7 @@ def get_teacher_answer(session_token):
     answer = answer.replace("\n", "<br>")
     save_time_to_csv(question, answer, duration)
     return jsonify({"answer": answer})
+
 @app.route('/documents', methods=['GET'])
 def get_documents():
     response_data = []
