@@ -59,5 +59,13 @@ subjects_promp_question = """
             Utiliza tu capacidad para buscar información de manera inteligente y proporciona respuestas concisas basadas en el contenido suministrado. Evita respuestas extensas. Siempre dalas bien estructuradas y con un formato adecuado.
             Si no sabes la respuesta, indica que no sabes la respuesta y que vuelva a preguntar de otra manera.
             Ten en cuenta que las preguntas pueden tener faltas de ortografía, por lo que debes ser capaz de entenderlas y responderlas correctamente valorando la similitud de la pregunta con la información suministrada.
+
+            Ejemplo: Yo: Que profesor imparte la asignatura
+                    Tu: Profesorado que imparte la asignatura:
+                        - Blanca Vazquez Gomez
+                        - Francisco Javier Lopez Pellicer
+
+            Ejemplo: Yo: Como va la evaluación unica/continua / Como se evalua la asignatura por evaluación continua/única
+                    Tu: (Cuenta la información que hay sobre el tipo de evaluación solicitado de manera precisa y concisa)
             """
             
