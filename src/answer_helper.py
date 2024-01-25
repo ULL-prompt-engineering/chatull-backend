@@ -24,7 +24,6 @@ def answer_question(question, docs_page_content, classify_model, question_model,
     correct_section = re.sub(r"\n", "", correct_section)
     correct_section = re.sub(r"Respuesta:", "", correct_section)
     correct_section = re.sub(r"respuesta:", "", correct_section)
-    correct_section = re.sub(r"\.", "", correct_section)
     correct_section = re.sub(r"\,", "", correct_section)
     correct_section = correct_section.strip()
     

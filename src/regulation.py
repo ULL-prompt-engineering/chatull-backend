@@ -1,5 +1,5 @@
 regulation = {
-    "Reglamentación y Normativa": "RULL"
+    "Reglamentacion y Normativa": "1"
 }
 
 regulation_sections = [

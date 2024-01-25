@@ -1,16 +1,14 @@
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
-from subjects import subjects, sections, subjects_promp_classify, subjects_promp_question
-from subjects_helper import buildSections
+from subjects import sections, subjects_promp_classify, subjects_promp_question
+from subjects_helper import buildSections, buildSubjects
 from answer_helper import answer_question, save_time_to_csv
 from regulation import regulation, regulation_sections, regulation_promp_classify, regulation_promp_question
 import uuid
 
-import threading
-import time
-
-documents = buildSections(subjects, sections)
-regulation_docs = buildSections(regulation, regulation_sections)
+subjects = buildSubjects()
+documents = buildSections(subjects, sections, "pdf_sub")
+regulation_docs = buildSections(regulation, regulation_sections, "pdf_reg")
 
 api_keys = {}
 api_key_control = {}
@@ -18,14 +16,6 @@ api_key_control = {}
 app = Flask(__name__)
 
 CORS(app)
-
-def print_api_keys():
-    while True:
-        print(time.strftime("%H:%M:%S", time.localtime()), api_keys)
-        time.sleep(15)
-
-t = threading.Thread(target=print_api_keys)
-t.start()
 
 @app.route('/set_api_key', methods=['POST'])
 def set_api_key():
@@ -67,7 +57,8 @@ def get_answer(session_token):
     
     api_key = session.get("api_key")
 
-    docs_page_content = documents[subjects[subject]]
+    docs_page_content = documents[subject]
+
     answer, duration = answer_question(question, docs_page_content, subjects_promp_classify, subjects_promp_question, api_key)
     answer = answer.replace("\n", "<br>")
     save_time_to_csv(question, answer, duration)
@@ -88,8 +79,9 @@ def get_teacher_answer(session_token):
     
     api_key = session.get("api_key")
     
-    regulation_name = list(regulation.values())[0]
+    regulation_name = list(regulation.keys())[0]
     regulation_page_content = regulation_docs[regulation_name]
+    print(regulation_page_content)
     answer, duration = answer_question(question, regulation_page_content, regulation_promp_classify, regulation_promp_question, api_key)
     answer = answer.replace("\n", "<br>")
     save_time_to_csv(question, answer, duration)
