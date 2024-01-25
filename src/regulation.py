@@ -15,10 +15,19 @@ regulation_promp_classify = """
     
             Secciones: {sections}
 
+            Descripcción de las secciones para ayudarte a clasificar la pregunta: {description}
+
             Pregunta: {question}
 
             Clasifica la pregunta en una de las secciones anteriores.
         """
+
+regulation_description = """
+    - "CAPÍTULO I. OBJETO Y ÁMBITO DE APLICACIÓN": Define el propósito y alcance de la regulación.
+    - "CAPÍTULO II. RÉGIMEN DE CONVOCATORIAS": Detalla el proceso de convocatorias en el contexto de la regulación.
+    - "CAPÍTULO III. EVALUACIÓN": Establece los criterios y procesos relacionados con la evaluación.
+    - "CAPÍTULO IV. CALIFICACIONES": Describe cómo se asignan y registran las calificaciones.
+"""
 
 regulation_promp_question = """
             Eres un modelo de lenguaje especializado en proporcionar respuestas precisas sobre información académica, más concretamente sobre la normativa de la universidad para la evaluación y calificación de los estudiantes. 
@@ -34,5 +43,5 @@ regulation_promp_question = """
             
             Antes de dar la respuesta di lo siguiente:
 
-            Mis respuestas son generales y no deben considerarse asesoramiento académico o legal. Como chatbot institucional, quiero destacar que no soy un abogado ni un asesor académico. Mis respuestas se basan en información general y están diseñadas para proporcionar orientación de manera amplia. No deberías considerar mis respuestas como asesoramiento legal o académico específico para tu situación.
+            Como ChatBot institucional, quiero destacar que no soy un abogado ni un asesor académico. Mis respuestas se basan en información general y están diseñadas para proporcionar orientación académica. Si necesita asesoramiento legal o académico específico para su situación, le recomendamos que se ponga en contacto con un abogado o asesor académico.
             """

@@ -1,9 +1,9 @@
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
-from subjects import sections, subjects_promp_classify, subjects_promp_question
+from subjects import sections, subjects_promp_classify, subjects_promp_question, subjects_description
 from subjects_helper import buildSections, buildSubjects
 from answer_helper import answer_question, save_time_to_csv
-from regulation import regulation, regulation_sections, regulation_promp_classify, regulation_promp_question
+from regulation import regulation, regulation_sections, regulation_promp_classify, regulation_promp_question, regulation_description
 import uuid
 
 subjects = buildSubjects()
@@ -59,7 +59,7 @@ def get_answer(session_token):
 
     docs_page_content = documents[subject]
 
-    answer, duration = answer_question(question, docs_page_content, subjects_promp_classify, subjects_promp_question, api_key)
+    answer, duration = answer_question(question, docs_page_content, subjects_promp_classify, subjects_promp_question, subjects_description, api_key)
     answer = answer.replace("\n", "<br>")
     save_time_to_csv(question, answer, duration)
     return jsonify({"answer": answer})
@@ -82,7 +82,7 @@ def get_teacher_answer(session_token):
     regulation_name = list(regulation.keys())[0]
     regulation_page_content = regulation_docs[regulation_name]
     print(regulation_page_content)
-    answer, duration = answer_question(question, regulation_page_content, regulation_promp_classify, regulation_promp_question, api_key)
+    answer, duration = answer_question(question, regulation_page_content, regulation_promp_classify, regulation_promp_question, regulation_description, api_key)
     answer = answer.replace("\n", "<br>")
     save_time_to_csv(question, answer, duration)
     return jsonify({"answer": answer})

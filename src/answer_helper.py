@@ -4,7 +4,7 @@ import os
 import re
 import time
 
-def answer_question(question, docs_page_content, classify_model, question_model, api_key):
+def answer_question(question, docs_page_content, classify_model, question_model, classify_description, api_key):
     client = OpenAI(api_key=api_key)
 
     start_time = time.time()
@@ -12,7 +12,7 @@ def answer_question(question, docs_page_content, classify_model, question_model,
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "user", "content": classify_model.format(question=question, sections="".join(docs_page_content.keys()))},
+            {"role": "user", "content": classify_model.format(question=question, sections="".join(docs_page_content.keys()), description=classify_description)}
         ]
     )
     
@@ -31,7 +31,7 @@ def answer_question(question, docs_page_content, classify_model, question_model,
     try:
         section_content = docs_page_content[correct_section]
     except:
-        section_content = "No hay información disponible sobre la sección a la que pertenece la pregunta."
+        section_content = "No hay información disponible"
 
     print(f"Section content: {section_content}")
     

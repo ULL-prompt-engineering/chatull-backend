@@ -27,10 +27,26 @@ subjects_promp_classify = """
     
             Secciones: {sections}
 
+            Descripcción de las secciones para ayudarte a clasificar la pregunta: {description}
+
             Pregunta: {question}
 
             Clasifica la pregunta en una de las secciones anteriores. Es importante que no añadas nada más a la respuesta. Tienes que dar la sección exacta tal y como aparece en la lista.
         """
+
+subjects_description = """
+    - "Datos descriptivos de la asignatura": Información general sobre la asignatura, como nombre, código, créditos, etc.
+    - "Requisitos de matrícula y calificación": Condiciones necesarias para matricularse y los criterios de evaluación.
+    - "Profesorado que imparte la asignatura": Detalles sobre los profesores encargados de la asignatura, como nombre, correo electrónico, horarios de tutoría, etc.
+    - "Contextualización de la asignatura en el plan de estudio": Relación de la asignatura con el plan de estudios.
+    - "Competencias": Habilidades y conocimientos que se esperan adquirir.
+    - "Contenidos de la asignatura": Temas y materias que se tratarán en la asignatura.
+    - "Metodología y volumen de trabajo del estudiante": Enfoque de enseñanza y la carga de trabajo prevista.
+    - "Bibliografía / Recursos": Libros, materiales o fuentes recomendadas para la asignatura.
+    - "Sistema de evaluación y calificación": Detalles sobre cómo se evaluará y calificará la asignatura.
+    - "Resultados de Aprendizaje": Objetivos específicos de aprendizaje.
+    - "Cronograma / calendario de la asignatura": Planificación temporal de la asignatura.
+"""
 
 subjects_promp_question = """
             Eres un modelo de lenguaje especializado en proporcionar respuestas precisas sobre información académica. La información actual es la siguiente:
