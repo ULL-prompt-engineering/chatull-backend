@@ -21,6 +21,8 @@ sections = [
 subjects_promp_classify = """
            Eres un modelo de lenguaje experto en clasificar preguntas en función de la sección a la que pertenecen.
            Solo te limitaras a dar el nombre de la sección a la que pertenece la pregunta, sin más.
+           Tienes que dar la sección exacta tal y como aparece en la lista, no añadas puntos, comas, etc, la respuesta debe ser exacta.
+           Si añades algo más a la respuesta, el sistema no será capaz de entenderlo y no funcionará correctamente, así que ten cuidado.
     
             Ejemplo: Yo: Que horarios de tutoria tiene israel
             Tu: Profesorado que imparte la asignatura
@@ -31,7 +33,7 @@ subjects_promp_classify = """
 
             Pregunta: {question}
 
-            Clasifica la pregunta en una de las secciones anteriores. Es importante que no añadas nada más a la respuesta. Tienes que dar la sección exacta tal y como aparece en la lista.
+            Clasifica la pregunta en una de las secciones anteriores. Es importante que no añadas nada más a la respuesta.
         """
 
 subjects_description = """
@@ -60,12 +62,16 @@ subjects_promp_question = """
             Si no sabes la respuesta, indica que no sabes la respuesta y que vuelva a preguntar de otra manera.
             Ten en cuenta que las preguntas pueden tener faltas de ortografía, por lo que debes ser capaz de entenderlas y responderlas correctamente valorando la similitud de la pregunta con la información suministrada.
 
-            Ejemplo: Yo: Que profesor imparte la asignatura
+            A continuación se muestran algunos ejemplos de preguntas que puedes recibir y como deberías responderlas:
+            Ejemplo 1: Yo: Que profesor imparte la asignatura
                     Tu: Profesorado que imparte la asignatura:
                         - Blanca Vazquez Gomez
                         - Francisco Javier Lopez Pellicer
 
-            Ejemplo: Yo: Como va la evaluación unica/continua / Como se evalua la asignatura por evaluación continua/única
+            Ejemplo 2: Yo: Como va la evaluación continua / Como se evalua la asignatura por evaluación continua
+                    Tu: (Cuenta la información que hay sobre el tipo de evaluación solicitado de manera precisa y concisa)
+                    
+            Ejemplo 3: Yo: Como se evalua la asignatura por evaluación única / Como va la evaluación única
                     Tu: (Cuenta la información que hay sobre el tipo de evaluación solicitado de manera precisa y concisa)
             """
             

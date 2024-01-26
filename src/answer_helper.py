@@ -32,7 +32,7 @@ def answer_question(question, docs_page_content, classify_model, question_model,
     try:
         section_content = docs_page_content[correct_section]
     except:
-        section_content = "No hay información disponible"
+        section_content = "No hay información disponible, prueba a preguntar de otra manera."
 
     print(f"Section content: {section_content}")
     
