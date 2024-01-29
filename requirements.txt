@@ -1,5 +1,9 @@
-openai==0.28.1
-python-dotenv==1.0.0
-Flask==3.0.0
-Flask-Cors==4.0.0
-PyPDF2==3.0.1
+openai
+python-dotenv
+Flask
+Flask-Cors
+PyPDF2
+cryptography
+requests
+beautifulsoup4
+gunicorn
