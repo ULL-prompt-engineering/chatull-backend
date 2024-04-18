@@ -7,3 +7,4 @@ cryptography
 requests
 beautifulsoup4
 gunicorn
+pyjwt

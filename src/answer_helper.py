@@ -1,6 +1,5 @@
 from openai import OpenAI
 
-import os
 import re
 import time
 
@@ -17,8 +16,6 @@ def answer_question(question, docs_page_content, classify_model, question_model,
     )
     
     correct_section = completion.choices[0].message.content
-    
-    print(f"Correct section: {correct_section}")
 
     correct_section = re.sub(r"\d+\.", "", correct_section)
     correct_section = re.sub(r"\n", "", correct_section)
@@ -33,8 +30,6 @@ def answer_question(question, docs_page_content, classify_model, question_model,
         section_content = docs_page_content[correct_section]
     except:
         section_content = "No hay información disponible, prueba a preguntar de otra manera."
-
-    print(f"Section content: {section_content}")
     
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
