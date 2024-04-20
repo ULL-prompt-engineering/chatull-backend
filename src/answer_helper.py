@@ -55,7 +55,7 @@ def save_time_to_csv(question, answer, duration, csv_file_name="times.csv"):
 def check_api_key(api_key):
     client = OpenAI(api_key=api_key)
     try:
-        client.completions.create(
+        client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "user", "content": "Prueba de API key"}
