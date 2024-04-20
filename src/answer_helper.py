@@ -49,4 +49,4 @@ def answer_question(question, docs_page_content, classify_model, question_model,
 
 def save_time_to_csv(question, answer, duration, csv_file_name="times.csv"):
     with open(csv_file_name, 'a') as f:
-        f.write(f"{question};{answer};{duration}\n")
+        f.write(f"{question};{answer};{duration};{time.time()}\n")
