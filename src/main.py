@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from subjects import sections, subjects_promp_classify, subjects_promp_question, subjects_description
 from subjects_helper import buildSections, buildSubjects
-from answer_helper import answer_question, save_time_to_csv
+from answer_helper import answer_question, save_time_to_csv, check_api_key
 from regulation import regulation, regulation_sections, regulation_promp_classify, regulation_promp_question, regulation_description
 import jwt
 
@@ -13,8 +13,8 @@ regulation_docs = buildSections(regulation, regulation_sections, "pdf_reg")
 app = Flask(__name__)
 CORS(app)
 
-# Clave secreta para firmar los tokens JWT
-SECRET_KEY = 'tu_clave_secreta'
+# Clave secreta para firmar los tokens JWT (pon una muy complicada)
+SECRET_KEY = "T,F4n*C$R5xjT+n"
 
 # Decorador para verificar y decodificar el token JWT
 def token_required(func):
@@ -41,6 +41,9 @@ def set_api_key():
     if api_key is None:
         return make_response("API key no encontrada", 400)
     
+    if not check_api_key(api_key):
+        return make_response("API key inválida", 401)
+
     # Genera el token JWT
     token = jwt.encode({'api_key': api_key}, SECRET_KEY, algorithm='HS256')
     
@@ -53,7 +56,7 @@ def get_answer(api_key):
     question = request.args.get('question')
     subject = request.args.get('subject')
     if question is None or subject is None:
-        return jsonify({'error': 'Parámetros incompletos'}), 400
+        return jsonify({'error': 'Pregunta o materia no encontrada'}), 400
 
     docs_page_content = documents.get(subject)
     if not docs_page_content:
