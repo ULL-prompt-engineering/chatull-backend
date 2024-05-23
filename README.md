@@ -20,7 +20,7 @@ Para comenzar, siga estos pasos:
 
 1. Clone este repositorio:
     ```bash
-    git clone [https://github.com/usuario/ChatULL-backend.git](https://github.com/ULL-prompt-engineering/chatull-backend.git)
+    git clone https://github.com/ULL-prompt-engineering/chatull-backend.git
     cd chatull-backend
     ```
 
