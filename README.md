@@ -1,74 +1,164 @@
-## Setup and execution
+# ChatULL Backend
 
-If you don't already have an OpenAI account, navigate to the [OpenAI website](https://www.openai.com/).
+Este repositorio contiene el backend de la plataforma **ChatULL**, desarrollada para mi Trabajo de Fin de Grado (TFG). ChatULL es un chatbot que responde preguntas relacionadas con documentos universitarios utilizando técnicas de **prompt engineering** para proporcionar respuestas precisas después de un tratamiento minucioso de la información.
 
-Here, you will see a "Sign Up" button at the top right corner of the website. Click on it and fill in your details to create an account. You can sign up with your GitHub or Google accounts. After signing up, you'll receive an email from OpenAI to confirm your account. Open this email and click on the verification link. This step helps to ensure the security of your account.
+## Índice
 
-After logging in, in the top right corner of your screen you'll see an icon with your account name. Click it to open the dropdown menu then click "View API keys".
+1. [Introducción](#introducción)
+2. [Instalación](#instalación)
+3. [Uso](#uso)
+4. [API Endpoints](#api-endpoints)
+5. [Contacto](#contacto)
 
-Now you're in the API keys section, you should see a button "Create new secret key". Click on that button to generate a new API key. Name your key. You will see your secret key that has been generated. Copy your secret key.
+## Introducción
 
-Add a `.env` file with the following content:
+ChatULL es una plataforma diseñada para ayudar a los estudiantes y personal universitario a obtener respuestas rápidas y precisas sobre diversos documentos universitarios. Utiliza procesamiento de lenguaje natural y técnicas de prompt engineering para interpretar las preguntas y proporcionar respuestas basadas en la información contenida en los documentos.
 
-``` bash
-OPENAI_API_KEY=<your key>
-```
-Paste your key there.
+## Instalación
 
-You can use the `.env.example` file as a template, remember to change the name to `.env`.
+Para comenzar, siga estos pasos:
 
-Install dependencies:
+1. Clone este repositorio:
+    ```bash
+    git clone https://github.com/usuario/ChatULL-backend.git
+    cd ChatULL-backend
+    ```
 
-``` bash
-# Create virtual environment
-python3 -m venv ./.venv
+2. Cree un entorno virtual:
+    ```bash
+    python -m venv env
+    source env/bin/activate  # En Windows use `env\Scripts\activate`
+    ```
 
-# Activate virtual environment
-source .venv/bin/activate
-```
+3. Instale las dependencias:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Install dependencies
+## Uso
 
-```
-pip install openai python-dotenv flask flask-cors PyPDF2 cryptography requests beautifulsoup4
-```
-
-Start the server:
-
-```
-(.venv) ➜  chatull-backend git:(master) ✗ python src/main.py 
- * Serving Flask app 'main'
- * Debug mode: on
-WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
- * Running on http://127.0.0.1:5000
-Press CTRL+C to quit
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 691-027-428
-```
-
-Now go to the [Frontend Repo](https://github.com/ULL-prompt-engineering/chatull-frontend) and clone the repository.
-
-Then execute the following commands;
+Para iniciar el servidor, ejecute el siguiente comando:
 ```bash
-cd chatull-frontend
-npm install
-npm run dev
-```
-And go to http://localhost:4321/
-
-Once you get into, go to chat page and test fill a question.
-
-¿Cuales son los horarios de tutoría del profesor Casiano?
+flask run
 ```
 
-It works fine:
+## API Endpoints
+
+### `POST /set_api_key`
+
+Este endpoint se utiliza para configurar la API key y obtener un token JWT.
+
+#### Request
+
+```json
+{
+    "api_key": "tu_api_key"
+}
+```
+#### Response
+
+```json
+{
+    "message": "API key guardada exitosamente",
+    "jwt": "tu_token_jwt"
+}
+```
+
+### `GET /get_answer`
+
+Este endpoint se utiliza para obtener una respuesta a una pregunta sobre una materia específica. Requiere un token JWT válido.
+
+#### Request
+
+```json
+- Headers:
+  - `Authorization`: `Bearer tu_token_jwt`
+- Query Parameters:
+  - `question`: La pregunta que se desea hacer.
+  - `subject`: La materia sobre la cual se hace la pregunta.
+  
+  Ejemplo:
+  http://servidor/get_answer?question=pregunta&subject=materia
 
 ```
-El profesor Casiano ofrece tutorías los lunes de 9:30 a 12:30 en el Módulo C de la Escuela Superior de Ingeniería y Tecnología (AN.4A ESIT) en el despacho P2.106, los martes de 10:30 a 11:30 en el Módulo A de la Escuela Superior de Ingeniería y Tecnología (AN.4A ESIT) en el despacho P2.037, y los jueves de 9:30 a 12:30 en el Módulo C de la Escuela Superior de Ingeniería y Tecnología (AN.4A ESIT) en el despacho P2.106.
+#### Response
+
+```json
+{
+    "answer": "respuesta_formateada"
+}
 ```
 
-## References
+### `GET /get_regulation_answer`
 
-* About .pkl files: <https://docs.python.org/3/library/pickle.html>
-* How to Create Requirements.txt Python?: <https://www.scaler.com/topics/how-to-create-requirements-txt-python/>
+Este endpoint se utiliza para obtener una respuesta a una pregunta sobre una regulación. Requiere un token JWT válido.
+
+
+#### Request
+
+```json
+- Headers:
+  - `Authorization`: `Bearer tu_token_jwt`
+- Query Parameters:
+  - `question`: La pregunta que se desea hacer.
+  
+  Ejemplo:
+  http://servidor/get_regulation_answer?question=pregunta
+
+```
+#### Response
+
+```json
+{
+    "answer": "respuesta_formateada"
+}
+```
+
+### `GET /documents`
+
+Este endpoint devuelve una lista de todos los documentos disponibles, incluyendo materias y regulaciones.
+
+#### Request
+
+No requiere de parametros adicionales
+
+#### Response
+
+
+```json
+[
+    {
+        "name": "nombre_de_la_materia"
+    },
+    {
+        "name": "nombre_de_la_regulación"
+    },
+    ...
+]
+
+```
+
+### `GET /logs`
+
+Este endpoint devuelve los registros de tiempo guardados en el archivo times.csv para cada una de las preguntas realizadas.
+
+
+#### Request
+
+No requiere de parametros adicionales
+
+#### Response
+
+
+```json
+    [
+        "question1, answer1, duration1",
+        "question2, answer2, duration2",
+        ...
+    ]
+```
+
+### Contacto
+Para cualquier duda o consulta, por favor contacta con jonayve.dev@gmail.com
+
+¡Gracias por utilizar ChatULL!
