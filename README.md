@@ -41,6 +41,7 @@ Para iniciar el servidor, ejecute el siguiente comando:
 ```bash
 flask run
 ```
+El servidor se iniciará en http://127.0.0.1:5000.
 
 ## API Endpoints
 
