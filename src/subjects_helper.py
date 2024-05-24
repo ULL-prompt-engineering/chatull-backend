@@ -1,12 +1,14 @@
 from PyPDF2 import PdfReader
 import os
 
+# Filtro para eliminar las líneas que no son parte del contenido de la asignatura
 filters = [
     "Última modificación",
     "Aprobación",
     "Página"
 ]
 
+# Función que recibe el nombre de un pdf y una lista de secciones y devuelve un diccionario con las secciones y su contenido
 def GetSectionsFromPDF(pdf_name, sections, folder):
     # the pdf is in a folder called "pdf" in the root ../pdf
     pdf_reader = PdfReader(f"{folder}/{pdf_name}.pdf")
@@ -37,6 +39,7 @@ def GetSectionsFromPDF(pdf_name, sections, folder):
     sections_with_text[sections[sectionsExtracted - 1]] = text
     return sections_with_text
 
+# Función que recibe una lista de asignaturas y una lista de secciones y devuelve un diccionario con las asignaturas y sus secciones
 def buildSections(subjects, sections, folder):
     subjects_with_sections = {}
     for subject in subjects:
@@ -46,11 +49,8 @@ def buildSections(subjects, sections, folder):
         subjects_with_sections[subject] = section_text
     return subjects_with_sections
 
+# Función que devuelve un diccionario con las asignaturas y sus códigos
 def buildSubjects():
-    # leer la carpeta pdf y obtener los nombres de los pdf
-    # por cada pdf, separar por -, lo que va antes es el código y correspondera con el valor del diccionario, lo que va después es el nombre de la asignatura y correspondera con la clave del diccionario
-    # devolver el diccionario
-
     subjects = {}
 
     for filename in os.listdir("pdf_sub"):

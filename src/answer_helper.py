@@ -3,6 +3,7 @@ from openai import OpenAI
 import re
 import time
 
+# Esta función se encarga de responder a una pregunta dada, primero clasificando la pregunta en una sección de la documentación y luego respondiendo a la pregunta en base a la sección encontrada.
 def answer_question(question, docs_page_content, classify_model, question_model, classify_description, api_key):
     client = OpenAI(api_key=api_key)
 
@@ -46,12 +47,13 @@ def answer_question(question, docs_page_content, classify_model, question_model,
 
     return response, duration
         
-
+# Esta función se encarga de guardar el tiempo de respuesta junto con la pregunta y la respuesta en un archivo csv.
 def save_time_to_csv(question, answer, duration, csv_file_name="times.csv"):
     with open(csv_file_name, 'a') as f:
         f.write(f"{question};{answer};{duration};{time.time()}\n")
 
 
+# Esta función se encarga de verificar si una API key es válida o no.
 def check_api_key(api_key):
     client = OpenAI(api_key=api_key)
     try:

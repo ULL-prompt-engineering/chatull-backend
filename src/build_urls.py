@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+# Función que recibe una URL y devuelve una lista con los enlaces de la página que contienen la cadena '/view_guide/'
 def get_urls(url):
     try:
         respuesta = requests.get(url)

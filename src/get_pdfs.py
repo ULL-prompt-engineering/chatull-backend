@@ -2,10 +2,12 @@ import requests
 import os
 import time
 
+# Función que recibe una cadena en snake_case y la convierte a camelCase
 def to_camel_case(s):
     words = s.split('_')
     return ''.join([word.capitalize() + '_' for word in words])[0:-1]
 
+# Función que recibe un archivo de texto con enlaces y descarga los pdfs de esos enlaces
 def get_pdfs(desde_enlaces_txt):
     if not os.path.exists('pdfs'):
         os.makedirs('pdfs')

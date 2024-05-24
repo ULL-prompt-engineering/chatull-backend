@@ -13,7 +13,7 @@ regulation_docs = buildSections(regulation, regulation_sections, "pdf_reg")
 app = Flask(__name__)
 CORS(app)
 
-# Clave secreta para firmar los tokens JWT (pon una muy complicada)
+# Clave secreta para firmar los tokens JWT
 SECRET_KEY = "T,F4n*C$R5xjT+n"
 
 # Decorador para verificar y decodificar el token JWT
@@ -35,6 +35,7 @@ def token_required(func):
     
     return wrapper
 
+# Ruta para guardar la API key y devolver el token JWT
 @app.route('/set_api_key', methods=['POST'])
 def set_api_key():
     api_key = request.json.get('api_key')
@@ -50,6 +51,7 @@ def set_api_key():
     response = make_response(jsonify({'message': 'API key guardada exitosamente', 'jwt': token}), 200)
     return response
 
+# Ruta para obtener la respuesta a una pregunta sobre una materia
 @app.route('/get_answer', methods=['GET'], endpoint='get_answer_endpoint')
 @token_required
 def get_answer(api_key):
@@ -67,6 +69,7 @@ def get_answer(api_key):
     save_time_to_csv(question, answer, duration)
     return jsonify({"answer": answer})
 
+# Ruta para obtener la respuesta a una pregunta sobre una regulación
 @app.route('/get_regulation_answer', methods=['GET'], endpoint='get_regulation_answer_endpoint')
 @token_required
 def get_regulation_answer(api_key):
@@ -84,11 +87,13 @@ def get_regulation_answer(api_key):
     save_time_to_csv(question, answer, duration)
     return jsonify({"answer": answer})
 
+# Ruta para obtener las materias y regulaciones disponibles
 @app.route('/documents', methods=['GET'])
 def get_documents():
     response_data = [{"name": subject} for subject in subjects] + [{"name": list(regulation.keys())[0]}]
     return jsonify(response_data)
 
+# Ruta para obtener los logs de las preguntas y respuestas
 @app.route('/logs', methods=['GET'])
 def get_logs():
     with open("times.csv", 'r') as f:
